@@ -5,7 +5,7 @@ class LevelsController < ApplicationController
   end
 
   def show
-    render json: Level.find(levels_params[:id]).to_json
+    render json: Level.find(params[:id]).to_json
   end
 
   def create
@@ -14,11 +14,7 @@ class LevelsController < ApplicationController
   end
 
   def update
-    @level = Level.find(levels_params[:id])
-    @level.update(levels_params)
-  end
-
-  def levels_params
-    params.permit(:data, :name, :id)
+    @level = Level.find(params[:id])
+    @level.update(params)
   end
 end
