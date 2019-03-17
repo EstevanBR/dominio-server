@@ -1,1 +1,1 @@
-bundle exec puma -C config/puma.rb
+web: bin/start-stunnel bundle exec passenger start -p ${PORT:-3000} --min-instances ${WEB_CONCURRENCY:-3} --max-pool-size ${WEB_CONCURRENCY:-3} --no-friendly-error-pages
