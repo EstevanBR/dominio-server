@@ -1,5 +1,6 @@
 class LevelsController < ApplicationController
   def index
+    # TODO paginate?
     render json: Level.all.to_json
   end
 
