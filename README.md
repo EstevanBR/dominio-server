@@ -1,5 +1,9 @@
 # README
 
+Tutorials:
+https://medium.com/@wintermeyer/authentication-from-scratch-with-rails-5-2-92d8676f6836
+https://www.pluralsight.com/guides/token-based-authentication-with-ruby-on-rails-5-api
+
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
