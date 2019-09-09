@@ -9,7 +9,7 @@ class LevelsController < ApplicationController
   end
 
   def create
-    @level = Level.create(data: params[:data], name: params[:name])
+    @level = Level.create(data: params[:data], name: params[:name], user_id: current_user.id)
     render json: @level.to_json
   end
 
