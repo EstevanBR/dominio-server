@@ -44,17 +44,29 @@ class LevelsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should render levels" do
+    assert Level.count > 0
+
     get levels_url, headers: auth_header#, params: {}, as: :json
 
-    assert parsed_response == JSON.parse(Level.all.to_json)
+    
+    assert parsed_response.first.include? ("id")
+    assert parsed_response.first.include? ("name")
+    assert parsed_response.first.include? ("data")
+    assert parsed_response.first.include? ("user_id")
+    assert parsed_response.first.include? ("rating")
+
     assert_response :success
   end
 
   test "should render level" do
     
     get level_url(level), headers: auth_header
-
-    assert parsed_response == JSON.parse(level.to_json)
+    
+    assert parsed_response.include? ("id")
+    assert parsed_response.include? ("name")
+    assert parsed_response.include? ("data")
+    assert parsed_response.include? ("user_id")
+    assert parsed_response.include? ("rating")
 
     assert_response :success
   end

@@ -4,7 +4,7 @@ class LevelsController < ApplicationController
   def index
     # TODO paginate?
     @levels = Level.all
-    render json: @levels.to_json
+    render json: @levels
   end
 
   def show
@@ -15,7 +15,7 @@ class LevelsController < ApplicationController
     @level = Level.new(level_params)
     @level.user_id = current_user.id
     if @level.save
-      render json: @level.to_json
+      render json: @level
     else
       render json: @level.errors, status: :unprocessable_entity
     end
