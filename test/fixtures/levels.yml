@@ -2,8 +2,12 @@
 
 one:
   name: MyString
-  data: 
+  data:
+    cells: []
+  user_id: <%= User.first.id %>
 
 two:
   name: MyString
-  data: 
+  data:
+    cells: []
+  user_id: <%= User.first.id %>

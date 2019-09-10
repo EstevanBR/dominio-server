@@ -4,7 +4,11 @@ require 'rails/test_help'
 
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-  fixtures :all
+  fixtures :users
+  fixtures :levels
 
   # Add more helper methods to be used by all tests here...
+  def parsed_response
+    JSON.parse(response.body)
+  end
 end
