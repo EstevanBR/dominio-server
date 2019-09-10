@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :ratings
   resources :users
   
   resources :levels
