@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   resources :levels
   
   post 'authenticate', to: 'authentication#authenticate'
+  get 'health', to: 'health#index'
 end
