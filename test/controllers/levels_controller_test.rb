@@ -44,17 +44,29 @@ class LevelsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should render levels" do
+    assert Level.count > 0
+
     get levels_url, headers: auth_header#, params: {}, as: :json
 
-    assert parsed_response == JSON.parse(Level.all.to_json)
+    
+    assert parsed_response.first.include? ("id")
+    assert parsed_response.first.include? ("name")
+    assert parsed_response.first.include? ("data")
+    assert parsed_response.first.include? ("user_id")
+    assert parsed_response.first.include? ("rating")
+
     assert_response :success
   end
 
   test "should render level" do
     
     get level_url(level), headers: auth_header
-
-    assert parsed_response == JSON.parse(level.to_json)
+    
+    assert parsed_response.include? ("id")
+    assert parsed_response.include? ("name")
+    assert parsed_response.include? ("data")
+    assert parsed_response.include? ("user_id")
+    assert parsed_response.include? ("rating")
 
     assert_response :success
   end
@@ -75,6 +87,28 @@ class LevelsControllerTest < ActionDispatch::IntegrationTest
     assert_difference('Level.count', -1) do
       delete level_url(level), headers: auth_header
     end
+    assert_response :success
+  end
+
+  test 'should get rating, nil when no ratings' do
+    level.ratings.destroy_all
+
+    assert level.ratings.count == 0
+    get level_url(level) + "/rating", headers: auth_header
+
+    assert_nil parsed_response["rating"]
+    assert_response :success
+  end
+
+  test 'should get rating, value when ratings' do
+    level.ratings.destroy_all
+    level.ratings.create!(value: 4.44, user_id: user.id)
+
+    assert level.ratings.count == 1
+
+    get level_url(level) + "/rating", headers: auth_header
+    
+    assert parsed_response["rating"].to_f == 4.44
     assert_response :success
   end
 end
