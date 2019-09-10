@@ -1,9 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  data: 
+  name: firstlevel
+  data:
+    cells: []
+  user_id: 1
 
 two:
-  name: MyString
-  data: 
+  name: secondlevel
+  data:
+    cells: []
+  user_id: 1
