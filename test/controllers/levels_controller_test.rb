@@ -77,4 +77,26 @@ class LevelsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :success
   end
+
+  test 'should get rating, nil when no ratings' do
+    level.ratings.destroy_all
+
+    assert level.ratings.count == 0
+    get level_url(level) + "/rating", headers: auth_header
+
+    assert_nil parsed_response["rating"]
+    assert_response :success
+  end
+
+  test 'should get rating, value when ratings' do
+    level.ratings.destroy_all
+    level.ratings.create!(value: 4.44, user_id: user.id)
+
+    assert level.ratings.count == 1
+
+    get level_url(level) + "/rating", headers: auth_header
+    
+    assert parsed_response["rating"].to_f == 4.44
+    assert_response :success
+  end
 end

@@ -1,5 +1,5 @@
 class LevelsController < ApplicationController
-  before_action :set_level, only: [:show, :update, :destroy]
+  before_action :set_level, only: [:show, :update, :destroy, :rating]
 
   def index
     # TODO paginate?
@@ -27,6 +27,10 @@ class LevelsController < ApplicationController
     else
       render json: @level.errors, status: :unprocessable_entity
     end
+  end
+
+  def rating
+    render json: {rating: @level.ratings.calculate(:average, :value)}
   end
 
   def destroy
