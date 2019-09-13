@@ -15,7 +15,16 @@ class LevelsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should add level' do
     assert_difference('Level.count') do
-      post levels_url, headers: auth_header, params: {level: {data:"test", name:"test"} }, as: :json
+      post levels_url,
+      headers: auth_header,
+      params: {
+        level: {
+          data:{
+            cells:[]
+          },
+          name:"test"
+        }
+      }, as: :json
     end
     assert_response :success
   end
@@ -27,7 +36,15 @@ class LevelsControllerTest < ActionDispatch::IntegrationTest
 
   test "shouldn't add levels if name is blank" do
     assert_difference('Level.count', 0) do
-      post levels_url, headers: auth_header, params: {level: {data: {cells:[]}} }, as: :json
+      post levels_url,
+        headers: auth_header,
+        params: {
+          level: {
+            data: {
+              cells:[]
+            }
+          }
+        }, as: :json
     end
     
     assert parsed_response['name'].include?("can't be blank")
@@ -72,13 +89,29 @@ class LevelsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update level" do
-    put level_url(level), headers: auth_header, params: {level: {name: "asdf", data: {cells:[]}} }, as: :json
+    put level_url(level),
+      headers: auth_header,
+      params: {
+        level: {
+          name: "asdf",
+          data: {cells:[]}
+        }
+      }, as: :json
     assert level.reload.name == "asdf"
     assert_response :success
   end
 
   test "should patch level" do
-    patch level_url(level), headers: auth_header, params: {level: {name: "fdsa", data: {cells:[]}} }, as: :json
+    patch level_url(level),
+      headers: auth_header,
+      params: {
+        level: {
+          name: "fdsa",
+          data: {
+            cells:[]
+          }
+        }
+      }, as: :json
     assert level.reload.name == "fdsa"
     assert_response :success
   end
