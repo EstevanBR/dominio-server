@@ -84,6 +84,8 @@ class LevelsControllerTest < ActionDispatch::IntegrationTest
     assert parsed_response.include? ("data")
     assert parsed_response.include? ("user_id")
     assert parsed_response.include? ("rating")
+    assert parsed_response.include? ("ratings")
+    assert parsed_response.include? ("favorites")
 
     assert_response :success
   end

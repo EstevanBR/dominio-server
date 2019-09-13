@@ -1,5 +1,5 @@
-class RatingsController < ApplicationController
-  before_action :set_rating, only: [:show, :update, :destroy]
+  class RatingsController < ApplicationController
+  before_action :set_rating, only: [:show, :update, :destroy, :create]
 
   # GET /ratings
   def index
@@ -15,9 +15,8 @@ class RatingsController < ApplicationController
 
   # POST /ratings
   def create
-    #@rating = Rating.find_or_initialize_by(user_id: rating_params[:user_id], level_id: rating_params[:level_id])
-    @rating = Rating.new(rating_params)
-    #@rating.update(rating_params)
+    
+    @rating.value = rating_params[:value]
 
     if @rating.save
       render json: @rating, status: :created, location: @rating
@@ -28,9 +27,9 @@ class RatingsController < ApplicationController
 
   # PATCH/PUT /ratings/1
   def update
-    rating_params = rating_params().slice(:value)
+    @rating.value = rating_params[:value]
 
-    if @rating.update(rating_params)
+    if @rating.save
       render json: @rating
     else
       render json: @rating.errors, status: :unprocessable_entity
@@ -45,7 +44,8 @@ class RatingsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_rating
-      @rating = Rating.find(params[:id])
+      @rating = Rating.find_by(id: params[:id])
+      @rating ||= Rating.find_or_initialize_by(user_id: rating_params[:user_id], level_id: rating_params[:level_id])
     end
 
     # Only allow a trusted parameter "white list" through.
