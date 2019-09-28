@@ -52,7 +52,8 @@ class RatingsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update rating" do
-    patch rating_url(@rating), headers: auth_header, params: { rating: { level_id: @rating.level_id, user_id: @rating.user_id, value: @rating.value } }, as: :json
+    level_id = @rating.level.id
+    patch rating_url(@rating), headers: auth_header, params: { rating: { level_id: level_id, user_id: @rating.user_id, value: @rating.value } }, as: :json
     assert_response 200
   end
 

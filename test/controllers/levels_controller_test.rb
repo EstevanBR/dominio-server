@@ -26,6 +26,25 @@ class LevelsControllerTest < ActionDispatch::IntegrationTest
         }
       }, as: :json
     end
+
+    assert_response :success
+  end
+
+  test 'should add level, but not save unpermitted params' do
+    assert_difference('Level.count') do
+      post levels_url,
+      headers: auth_header,
+      params: {
+        level: {
+          data:{
+            cells:[]
+          },
+          name:"test",
+          bad: "bad"
+        }
+      }, as: :json
+    end
+    assert !parsed_response.keys.include?("bad")
     assert_response :success
   end
 

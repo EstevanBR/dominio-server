@@ -7,4 +7,9 @@ class Level < ApplicationRecord
   validates :data, presence: true
   validates :name, presence: true
   validates :user_id, presence: true
+
+  def update_ratings!
+    rating = ratings.calculate(:average, :value)
+    save!
+  end
 end

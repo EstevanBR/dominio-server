@@ -3,7 +3,7 @@ class FavoritesController < ApplicationController
 
   # GET /favorites
   def index
-    @favorites = Favorite.all
+    @favorites = current_user.favorites
 
     render json: @favorites
   end

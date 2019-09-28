@@ -1,9 +1,9 @@
   class RatingsController < ApplicationController
   before_action :set_rating, only: [:show, :update, :destroy, :create]
-
+  
   # GET /ratings
   def index
-    @ratings = Rating.all
+    @ratings = current_user.ratings
 
     render json: @ratings
   end
@@ -23,6 +23,8 @@
     else
       render json: @rating.errors, status: :unprocessable_entity
     end
+
+    @rating.level.update_ratings!
   end
 
   # PATCH/PUT /ratings/1
@@ -34,11 +36,18 @@
     else
       render json: @rating.errors, status: :unprocessable_entity
     end
+
+    @rating.level.update_ratings!
   end
 
   # DELETE /ratings/1
   def destroy
+    l = @rating.level
+
     @rating.destroy
+
+    l.update_ratings!
+    
   end
 
   private
