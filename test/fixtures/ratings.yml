@@ -4,8 +4,10 @@ one:
   value: 1.5
   user_id: 1
   level_id: 1
+  id: 1
 
 two:
   value: 3.5
   user_id: 1
   level_id: 1
+  id: 2

@@ -31,13 +31,29 @@ class RatingsControllerTest < ActionDispatch::IntegrationTest
     assert_response 201
   end
 
+  test "should not create 2 ratings" do
+    level = user.levels.create!(data:{cells:[]}, name:"test")
+    value = 3.33
+    assert_difference('Rating.count', 1) do
+      post ratings_url, headers: auth_header, params: { rating: { level_id: level.id, user_id: user.id, value: value } }, as: :json
+      post ratings_url, headers: auth_header, params: { rating: { level_id: level.id, user_id: user.id, value: value } }, as: :json
+    end
+
+    assert parsed_response['value'] == value
+    assert parsed_response['user_id'] == user.id
+    assert parsed_response['level_id'] == level.id
+
+    assert_response 201
+  end
+
   test "should show rating" do
     get rating_url(@rating), headers: auth_header, as: :json
     assert_response :success
   end
 
   test "should update rating" do
-    patch rating_url(@rating), headers: auth_header, params: { rating: { level_id: @rating.level_id, user_id: @rating.user_id, value: @rating.value } }, as: :json
+    level_id = @rating.level.id
+    patch rating_url(@rating), headers: auth_header, params: { rating: { level_id: level_id, user_id: @rating.user_id, value: @rating.value } }, as: :json
     assert_response 200
   end
 
