@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  get '/levels', to: 'levels#index'
-  get '/levels/:id', to: 'levels#show'
-  post '/levels', to: 'levels#create'
-  put '/levels', to: 'levels#update'
+  resources :favorites
+  resources :ratings
+  resources :users
+  
+  resources :levels
+
+  get 'levels/:id/rating', to: 'levels#rating'
+  
+  post 'authenticate', to: 'authentication#authenticate'
+  get 'health', to: 'health#index'
 end

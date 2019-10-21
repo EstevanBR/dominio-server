@@ -1,0 +1,22 @@
+{
+    "GROUND": [
+        {
+            "x": 0,
+            "y": 0
+        }
+    ],
+    "SPIKE LONG": [],
+    "SPIKE SHORT N": [],
+    "SPIKE BALL": [],
+    "LADDER": [],
+    "DARTS LEFT": [],
+    "DARTS RIGHT": [],
+    "EXIT": [],
+    "ENTRANCE": [],
+    "FALL THROUGH": [],
+    "LADDER TOP": [],
+    "COIN": [],
+    "SPIKE SHORT E": [],
+    "SPIKE SHORT S": [],
+    "SPIKE SHORT W": []
+}

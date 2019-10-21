@@ -7,4 +7,11 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  def parsed_response
+    JSON.parse(response.body)
+  end
+
+  def json_fixture(name)
+    File.read(Rails.root.to_s + "/test/fixtures/json/#{name}.json")
+  end
 end

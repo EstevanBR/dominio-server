@@ -1,15 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: firstlevel
-  data:
-    cells: []
+  value: 1.5
   user_id: 1
+  level_id: 1
   id: 1
 
 two:
-  name: secondlevel
-  data:
-    cells: []
+  value: 3.5
   user_id: 1
+  level_id: 1
   id: 2
