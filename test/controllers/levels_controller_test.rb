@@ -1,11 +1,12 @@
 require 'test_helper'
 
 class LevelsControllerTest < ActionDispatch::IntegrationTest
-  attr_reader :user, :level
+  attr_reader :user, :level, :level_data
   
   setup do
     @user = User.first
     @level = Level.first
+    @level_data = JSON.parse(json_fixture("level_data"))
   end
   
   def auth_header
@@ -14,14 +15,14 @@ class LevelsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should add level' do
+    
+
     assert_difference('Level.count') do
       post levels_url,
       headers: auth_header,
       params: {
         level: {
-          data:{
-            cells:[]
-          },
+          data: level_data,
           name:"test"
         }
       }, as: :json
@@ -36,9 +37,7 @@ class LevelsControllerTest < ActionDispatch::IntegrationTest
       headers: auth_header,
       params: {
         level: {
-          data:{
-            cells:[]
-          },
+          data:level_data,
           name:"test",
           bad: "bad"
         }
@@ -46,6 +45,37 @@ class LevelsControllerTest < ActionDispatch::IntegrationTest
     end
     assert !parsed_response.keys.include?("bad")
     assert_response :success
+  end
+
+  test 'should add level, but not save unrecognized data params' do
+    assert_difference('Level.count') do
+      post levels_url,
+      headers: auth_header,
+      params: {
+        level: {
+          data: {"GROUND": [],"BAD": []},
+          name:"test",
+        }
+      }, as: :json
+    end
+    
+    assert !parsed_response["data"].keys.include?("BAD")
+    assert_response :success
+  end
+
+  test "shouldn't add level, if no params in level.data are valid." do
+    assert_difference('Level.count', 0) do
+      post levels_url,
+      headers: auth_header,
+      params: {
+        level: {
+          data: {"BAD": []},
+          name:"test",
+        }
+      }, as: :json
+    end
+    # TODO: improve error for bad keys, "data"=>["can't be blank"] is not entirely accurate
+    assert_response :unprocessable_entity
   end
 
   test "shouldn't add level if unauthorized" do
@@ -115,7 +145,7 @@ class LevelsControllerTest < ActionDispatch::IntegrationTest
       params: {
         level: {
           name: "asdf",
-          data: {cells:[]}
+          data: level_data
         }
       }, as: :json
     assert level.reload.name == "asdf"
@@ -128,9 +158,7 @@ class LevelsControllerTest < ActionDispatch::IntegrationTest
       params: {
         level: {
           name: "fdsa",
-          data: {
-            cells:[]
-          }
+          data: level_data
         }
       }, as: :json
     assert level.reload.name == "fdsa"
