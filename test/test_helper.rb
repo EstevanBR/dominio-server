@@ -8,6 +8,7 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
   def parsed_response
+    print(JSON.parse(response.body))
     JSON.parse(response.body)
   end
 

@@ -21,7 +21,7 @@ class LevelsController < ApplicationController
 
   def index
     # TODO paginate?
-    @levels = Level.all
+    @levels = Level.order(created_at: :desc)
     render json: @levels
   end
 
